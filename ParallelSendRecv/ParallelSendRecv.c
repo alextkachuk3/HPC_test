@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "mpi.h"
 #include <math.h>
+#include "mpi.h"
 
 #define SEED 354853899
 
@@ -36,7 +36,7 @@ void TestMonteCarlo(int iterations)
 	}
 	else if (process_rank == 0)
 	{
-		for (int i = 0; i < process_iterations; ++i)
+		for (int i = 0; i < process_iterations; i++)
 		{
 			x = (double)rand() / RAND_MAX;
 			y = (double)rand() / RAND_MAX;
@@ -55,7 +55,7 @@ void TestMonteCarlo(int iterations)
 	if (process_rank == 0)
 	{
 		long long final_count = 0;
-		for (int i = 0; i < process_count; ++i)
+		for (int i = 0; i < process_count; i++)
 		{
 			final_count += recieved[i];
 		}

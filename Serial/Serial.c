@@ -32,7 +32,7 @@ void TestMonteCarlo(int iterations)
 
 int main(int argc, char* argv[])
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	int iterations[] = { 100000, 1000000, 10000000, 100000000, 1000000000 };
 	for (int i = 0; i < sizeof(iterations) / sizeof(int); i++)
