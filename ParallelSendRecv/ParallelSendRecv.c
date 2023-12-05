@@ -7,7 +7,7 @@
 
 int main(int argc, char* argv[])
 {
-	long niter = 10000000;
+	long iterations = 10000000;
 
 	double x, y, z;
 	int count = 0;
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &process_count);
 
-	niter /= process_count;
+	iterations /= process_count;
 
 	int* recieved = (int*)calloc(process_count, sizeof(int));
 
@@ -28,10 +28,10 @@ int main(int argc, char* argv[])
 
 	if (process_rank != 0)
 	{
-		for (int i = 0; i < niter; ++i)
+		for (int i = 0; i < iterations; ++i)
 		{
-			x = ((double)rand()) / RAND_MAX;
-			y = ((double)rand()) / RAND_MAX;
+			x = (double)rand() / RAND_MAX;
+			y = (double)rand() / RAND_MAX;
 			z = sqrt(x * x + y * y);
 			if (z <= 1)
 			{
@@ -42,10 +42,10 @@ int main(int argc, char* argv[])
 	}
 	else if (process_rank == 0)
 	{
-		for (int i = 0; i < niter; ++i)
+		for (int i = 0; i < iterations; ++i)
 		{
-			x = ((double)rand()) / RAND_MAX;
-			y = ((double)rand()) / RAND_MAX;
+			x = (double)rand() / RAND_MAX;
+			y = (double)rand() / RAND_MAX;
 			z = sqrt(x * x + y * y);
 			if (z <= 1)
 			{
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 			finalcount += recieved[i];
 		}
 
-		pi = ((double)finalcount / (double)(process_count * niter)) * 4.0;
+		pi = ((double)finalcount / (double)(process_count * iterations)) * 4.0;
 		printf("Pi: %f\n", pi);
 	}
 
