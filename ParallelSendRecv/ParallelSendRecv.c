@@ -5,30 +5,24 @@
 
 #define SEED 354853899
 
-int main(int argc, char* argv[])
+int process_count;
+int process_rank;
+
+void TestMonteCarlo(int iterations)
 {
-	long iterations = 10000000;
+	double start = MPI_Wtime();
 
 	double x, y, z;
 	int count = 0;
 	double pi;
+	
+	int process_iterations = iterations / process_count;
 
-	int process_count;
-	int process_rank;
-
-	MPI_Init(&argc, &argv);
-	MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
-	MPI_Comm_size(MPI_COMM_WORLD, &process_count);
-
-	iterations /= process_count;
-
-	int* recieved = (int*)calloc(process_count, sizeof(int));
-
-	srand(SEED + process_rank);
+	int* recieved = (int*)calloc(process_count, sizeof(int));	
 
 	if (process_rank != 0)
 	{
-		for (int i = 0; i < iterations; ++i)
+		for (int i = 0; i < process_iterations; ++i)
 		{
 			x = (double)rand() / RAND_MAX;
 			y = (double)rand() / RAND_MAX;
@@ -42,7 +36,7 @@ int main(int argc, char* argv[])
 	}
 	else if (process_rank == 0)
 	{
-		for (int i = 0; i < iterations; ++i)
+		for (int i = 0; i < process_iterations; ++i)
 		{
 			x = (double)rand() / RAND_MAX;
 			y = (double)rand() / RAND_MAX;
@@ -67,12 +61,32 @@ int main(int argc, char* argv[])
 			finalcount += recieved[i];
 		}
 
-		pi = ((double)finalcount / (double)(process_count * iterations)) * 4.0;
-		printf("Pi: %f\n", pi);
+		double finish = MPI_Wtime();
+		double duration = finish - start;
+
+		pi = ((double)finalcount / (double)(process_count * process_iterations)) * 4.0;
+		printf("Iterations %i\nDuration %f\nPi: %f\n", iterations, duration, pi);
+	}
+
+	free(recieved);
+}
+
+int main(int argc, char* argv[])
+{
+	MPI_Init(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &process_count);
+	setvbuf(stdout, 0, _IONBF, 0);
+
+	srand(SEED + process_rank);
+
+	int iterations[] = { 100000, 1000000, 10000000, 100000000, 1000000000 };
+	for (int i = 0; i < sizeof(iterations) / sizeof(int); i++)
+	{
+		TestMonteCarlo(iterations[i]);
 	}
 
 	MPI_Finalize();
-	free(recieved);
 
 	return 0;
 }
