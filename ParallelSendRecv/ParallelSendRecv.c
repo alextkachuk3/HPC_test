@@ -13,7 +13,7 @@ void TestMonteCarlo(int iterations)
 	double start = MPI_Wtime();
 
 	double x, y, z;
-	int count = 0;
+	long long count = 0;
 	double pi;
 	
 	int process_iterations = iterations / process_count;
@@ -22,7 +22,7 @@ void TestMonteCarlo(int iterations)
 
 	if (process_rank != 0)
 	{
-		for (int i = 0; i < process_iterations; ++i)
+		for (int i = 0; i < process_iterations; i++)
 		{
 			x = (double)rand() / RAND_MAX;
 			y = (double)rand() / RAND_MAX;
@@ -48,24 +48,24 @@ void TestMonteCarlo(int iterations)
 		}
 		for (int i = 1; i < process_count; i++)
 		{
-			MPI_Recv(&recieved[i], process_count, MPI_INT, MPI_ANY_SOURCE, i, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+			MPI_Recv(&recieved[i], process_count, MPI_LONG_LONG, MPI_ANY_SOURCE, i, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 		}
 	}
 
 	if (process_rank == 0)
 	{
-		int finalcount = 0;
-		long finalniter = 0;
+		long long final_count = 0;
 		for (int i = 0; i < process_count; ++i)
 		{
-			finalcount += recieved[i];
+			final_count += recieved[i];
 		}
+
+		pi = ((double)final_count / (double)(process_count * process_iterations)) * 4.0;
 
 		double finish = MPI_Wtime();
 		double duration = finish - start;
 
-		pi = ((double)finalcount / (double)(process_count * process_iterations)) * 4.0;
-		printf("Iterations %i\nDuration %f\nPi: %f\n", iterations, duration, pi);
+		printf("Iterations %i\nDuration %f\nPi: %f\n\n", iterations, duration, pi);
 	}
 
 	free(recieved);

@@ -27,7 +27,7 @@ void TestMonteCarlo(int iterations)
 
 	double duration = ((double) (end - start)) / CLOCKS_PER_SEC;
 
-	printf("Iterations %i\nDuration %f\nPi: %f\n", iterations, duration, pi);
+	printf("Iterations %i\nDuration %f\nPi: %f\n\n", iterations, duration, pi);
 }
 
 int main(int argc, char* argv[])
