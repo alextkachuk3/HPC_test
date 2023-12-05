@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Serial", "Serial\Serial.vcxproj", "{2C6A7CCF-D0DF-4161-B423-D66DE46F9FE0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParallelSendRecv", "ParallelSendRecv\ParallelSendRecv.vcxproj", "{5688A049-7D95-4A45-8264-56702D16925E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{2C6A7CCF-D0DF-4161-B423-D66DE46F9FE0}.Release|x64.Build.0 = Release|x64
 		{2C6A7CCF-D0DF-4161-B423-D66DE46F9FE0}.Release|x86.ActiveCfg = Release|Win32
 		{2C6A7CCF-D0DF-4161-B423-D66DE46F9FE0}.Release|x86.Build.0 = Release|Win32
+		{5688A049-7D95-4A45-8264-56702D16925E}.Debug|x64.ActiveCfg = Debug|x64
+		{5688A049-7D95-4A45-8264-56702D16925E}.Debug|x64.Build.0 = Debug|x64
+		{5688A049-7D95-4A45-8264-56702D16925E}.Debug|x86.ActiveCfg = Debug|Win32
+		{5688A049-7D95-4A45-8264-56702D16925E}.Debug|x86.Build.0 = Debug|Win32
+		{5688A049-7D95-4A45-8264-56702D16925E}.Release|x64.ActiveCfg = Release|x64
+		{5688A049-7D95-4A45-8264-56702D16925E}.Release|x64.Build.0 = Release|x64
+		{5688A049-7D95-4A45-8264-56702D16925E}.Release|x86.ActiveCfg = Release|Win32
+		{5688A049-7D95-4A45-8264-56702D16925E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
